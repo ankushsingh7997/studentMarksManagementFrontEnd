@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { isValidEmail } from "../validations/validation"
 import '../componentcss/Login.css'
 import { userId } from "../recoil/atom"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 export default function Login() {
@@ -10,7 +10,7 @@ export default function Login() {
     const [password,SetPassword]=useState()
     const[error,SetError]=useState("")
     const[item,setItem]=useState()
-    const[id,setId]=useRecoilState(userId)
+    const setId=useSetRecoilState(userId)  // if we want to set recoil  
     const navigate=useNavigate()
 
 async function HandleSubmit(e)
@@ -47,13 +47,9 @@ e.preventDefault()
 
     
     console.log(result)
-    
-    
 
- }
-    
+ }    
 }
-
 
   return (
     
