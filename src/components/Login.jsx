@@ -67,7 +67,7 @@ e.preventDefault()
           <input type={'password'} value={password} placeholder="password" onChange={(e)=>{SetPassword(e.target.value.trim())}}></input>
         </section>
         <section>
-        <button onClick={HandleSubmit}>SignIn</button>
+        <button className="loginButton" onClick={HandleSubmit}>SignIn</button>
         </section>
         <section>
             <div className="error" style={{color:"red"}}>{error} </div>

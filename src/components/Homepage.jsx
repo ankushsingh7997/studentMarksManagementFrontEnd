@@ -1,15 +1,23 @@
+
+
 import React from "react";
 import { Link } from "react-router-dom";
+import "../componentcss/Homepage.css";
 
-
-function Homepage(){
-    return(
-        <div>
-            <h1>WELCOME TO HOMEPAGE</h1>
-            <label>Already Have An Account <Link to = "/Login">Login </Link></label>
-            
-            <label>Click Here to SignIN <Link to="/Register">Register</Link></label>
-        </div>
-    )
+function Homepage() {
+  return (
+    <div className="homepage-container">
+      <h1>Student marks menagement</h1>
+      <div className="homepage-links">
+        <p>Already have an account?</p>
+        <Link to="/login">Login</Link>
+      </div>
+      <div className="homepage-links">
+        <p>Need to create an account?</p>
+        <Link to="/register">Register</Link>
+      </div>
+    </div>
+  );
 }
-export default Homepage
+
+export default Homepage;

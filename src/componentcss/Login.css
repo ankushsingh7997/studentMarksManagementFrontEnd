@@ -3,8 +3,7 @@
     display:flex;
     justify-content:center;
     align-items: center;
-    border:10px solid rgb(228, 69, 69);
-    border-radius: 90px;
+    
     
     
     
@@ -15,21 +14,37 @@
 }
 .Form
 {
-    background-image: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% );
+    
     display: flex;
     flex-direction:column;
      align-items:center;
-     padding:4rem;
-     border:10px solid white;
-     border-radius: 90px;
+     padding:2rem;
+     /* background: linear-gradient(to bottom, #f7f7f7, #e7e7e7); */
+     background-color: #333333;
+     transition: all 0.3s ease;
+
+
+     
+     border-radius: 70px;
      height: 60vh;
+     /* box-shadow: 5px -9px  8px rgba(0, 0, 0, 0.1); */
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+
+}
+.Form:hover
+{
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 input{
-    padding :1rem;
+     padding :1rem;
     width:15rem;
     border: none;
     border-radius: 30px;
-    outline: none;
+    outline: none; 
+
+  
 
 }
 label{
@@ -37,6 +52,8 @@ label{
     padding: 2rem;
     font-size: large;
     font-weight: 600;
+    
+    
 }
 section{
     margin: 0.5rem;
@@ -46,7 +63,39 @@ section{
     margin-top: 2rem;
     width:13rem;
 } */
-button {
+.loginButton {
+    border-radius: 25px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    background-color: #c62828;
+    
+    font-size: 1.4em;
+    font-weight: 500;
+    font-family: inherit;
+    width:15vw;
+    /* background-color: #1a1a1a; */
+    cursor: pointer;
+    transition: border-color 0.25s;
+
+    /* padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  margin-top: 1rem;
+  cursor: pointer; */
+  }
+  .loginButton:hover {
+    /* color:white;
+    background-color:  rgb(228, 69, 69);
+    ; */
+    /* background-color: #555; */
+    background-color: #8e0000;
+
+
+  }
+  Button {
     border-radius: 25px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
@@ -55,12 +104,18 @@ button {
     font-weight: 500;
     font-family: inherit;
     width:15vw;
-    /* background-color: #1a1a1a; */
+    background-color: #1a1a1a; 
     cursor: pointer;
-    /* transition: border-color 0.25s; */
+    transition: border-color 0.25s;
+
+   
   }
+
   button:hover {
-    color:white;
-    background-color:  rgb(228, 69, 69);
-    ;
+   
+    background-color: #555;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+
   }

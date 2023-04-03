@@ -88,7 +88,7 @@ export default function Register()
           
 
         <section>
-            <button onClick={handleSubmit}>submit</button>
+            <button className='loginButton' onClick={handleSubmit}>submit</button>
         </section>
 
         <section>

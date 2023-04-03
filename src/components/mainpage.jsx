@@ -14,6 +14,7 @@ export default  function Mainpage()
     const[isopenedit,setIsopenedit]=useState(false)
     const id=useRecoilValue(userId)
     const[studentdata,setStudentData]=useState()
+    const[tempstudentdata,settempStudentData]=useState()
     const[studentName,setStudentname]=useState()
     const[roll,setRoll]=useState()
     const[java,setJava]=useState()
@@ -24,6 +25,13 @@ export default  function Mainpage()
     const[error,setError]=useState("")
     const[message,setMessage]=useState("")
     const navigate=useNavigate()
+    const[searchStudent,setSearchStudent]=useState('')
+    const[searchSubject,setSearchSubject]=useState('')
+    const[mainIsopen,setmainIsopen]=useState(true)
+    const[searchIsopenByname,setsearchIsopen]=useState(false)
+    const[searchIsopenBysubject,setsearchIsopenBysubject]=useState(false)
+    const[subjectData,setsubjectData]=useState(false)
+
     
 
 useEffect(() => {
@@ -113,11 +121,7 @@ useEffect(() => {
         }
         else{
           setStudentData([...data])
-        }
-        
-        
-        
-        
+        }     
       }
          }
          
@@ -126,8 +130,6 @@ useEffect(() => {
              setIsopenview(true)
              setViewdata("")
              setViewdata(data)
-            
-             
 
          }
 
@@ -210,28 +212,116 @@ useEffect(() => {
 
 setStudentData([...data])
 
-
-
-
-
-
-
-
-
-
-     
+ 
     }
     if(!result.status){setError(result.message)}
   }
+  
 
+  async function handleSearch()
+  {
+    console.log(searchStudent)
+  console.log(searchSubject)
+    
+    // setStudentData(tempstudentdata)
+
+
+     // to make search data visible
+
+    // api call
+    
+
+    if(!searchStudent&&!searchSubject) Swal.fire('please pass some data to search')
+
+    else{
+      setmainIsopen(false) // to make main invisible 
+
+      let name;
+    let subject;
+    if(searchStudent) name=searchStudent.trim()
+    if(searchSubject) subject=searchSubject.trim()
+
+      if(searchStudent &&searchSubject||searchSubject &&!searchStudent)
+      {
+        console.log('here')
+        
+        setsearchIsopenBysubject(true)
+      }
+      else {
+        console.log('not here')
+    setsearchIsopen(true)
+      }
+
+    
+      let obj={}
+     if(name) obj.name=name
+     if(subject)obj.subject=subject
+    
+    console.log(obj)
+    let queryParams = new URLSearchParams(obj).toString();
+
+    let result = await  fetch(`http://localhost:3000/view?${queryParams}`, {
+      method: "GET",
+     
+      
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((err) => Swal.fire(err.message));
+
+      if(!result.status){Swal.fire(result.message)}
+      if(result){ 
+        if(searchSubject&&searchStudent||searchSubject&&!searchStudent)
+        {
+          setsubjectData(result.data)
+          console.log(subjectData)
+         
+        }
+        else{
+          settempStudentData(studentdata)
+        setStudentData(result.data)
+        
+        }
+
+
+        // settempStudentData(studentdata)
+        // setStudentData(result.data)
+        
+        
         
 
+      
+      
+      }
+      
+
+    //
+
+    }
+
+     
+
+
+  }
+  function handleSearchBack()
+      {
+         setsearchIsopen(false)
+         setStudentData(tempstudentdata)
+         
+         setSearchStudent('')
+        setSearchSubject('')
+         
+         setmainIsopen(true)
+      }
+
+        
+// user MUI for dialog box  this dialogue box is for add new student
     return (
-    <>
+    <div className="master-container">
     {isopen?(<Dialog open={isopen} PaperProps={{
             style: {
               borderRadius: "20px",
-              background:'linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )',
+              background:'#8e0000',
               padding:'0.5rem'
             },
           }}> 
@@ -273,8 +363,8 @@ setStudentData([...data])
        <input type={'number'}  value={sql} placeholder="sql" onChange={(e)=>{setSql(e.target.value)}}></input>
       </section>
   <div>
-      <button onClick={handleDetails}>add</button>
-      <button onClick={handleBack}>back</button>
+      <button className="edit-btnn" onClick={handleDetails}>add</button>
+      <button className="edit-btnn" onClick={handleBack}>back</button>
       </div>
       </div>
     </Dialog>):""}
@@ -282,10 +372,12 @@ setStudentData([...data])
 
 
 
-    {isopenview?(<Dialog open={isopenview} PaperProps={{
+    {
+      // Dialog to view student data
+    isopenview?(<Dialog open={isopenview} PaperProps={{
             style: {
               borderRadius: "20px",
-              background:'linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )',
+              background:'#8e0000',
               padding:'0.5rem'
             },
           }}> 
@@ -337,10 +429,12 @@ setStudentData([...data])
 
    
 
-    {isopenedit?(<Dialog open={isopenedit} PaperProps={{
+    {
+      // Dailog for edit data
+    isopenedit?(<Dialog open={isopenedit} PaperProps={{
             style: {
               borderRadius: "20px",
-              background:'linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% )',
+              background:'#8e0000',
               padding:'0.5rem'
             },
           }}> 
@@ -382,8 +476,8 @@ setStudentData([...data])
        <input type={'number'}  value={sql} placeholder="sql" onChange={(e)=>{setSql(e.target.value)}}></input>
       </section>
   <div>
-      <button onClick={handleUpdate}>add</button>
-      <button onClick={handleBack}>back</button>
+      <button className="edit-btnn" onClick={handleUpdate}>add</button>
+      <button className="edit-btnn" onClick={handleBack}>back</button>
       </div>
       </div>
     </Dialog>):""}
@@ -394,23 +488,158 @@ setStudentData([...data])
 
 
 
-    
-    
-    <div>
-      <button onClick={handleAdd}>add student </button>  
-{
-    
-    studentdata &&studentdata.map((item,index)=>(<div key={item._id}>
-        <div>
+
+    {searchIsopenByname?(<div className="container">
+  
+  {/* <div className="search-bar">
+  <input  type='text' placeholder="search by name" onChange={(e)=>setSearchStudent(e.target.value)}></input>
+  <input  type='text' placeholder="search by subject" onChange={(e)=>setSearchSubject(e.target.value)}></input>
+  </div> */}
+  {/* <div><button className="add-student-btn" onClick={handleSearch}>
+    Search
+  </button></div> */}
+  <button className="add-student-btn" onClick={handleSearchBack}>
+    back
+  </button>
+  <div className="student-list">
+    {studentdata &&
+      studentdata.map((item, index) => (
+        <div className="student-card" key={item._id}>
+          <div className="student-image">
             
+          </div>
+          <div className="student-details">
+            <h3 className="student-name">{item.studentName}</h3>
+            <div className="student-buttons">
+              <button className="edit-btn" onClick={() => handleEdit(item)}>
+                Edit
+              </button>
+              <button className="view-btn" onClick={() => handleView(item, index)}>
+                View
+              </button>
+              <button className="delete-btn" onClick={() => handleDelete(item.roll)}>
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
-       <h1> {item.studentName}</h1>
-        <button onClick={()=>handleEdit(item)}>edit</button>
-        <button onClick={()=>handleView(item,index)}>view</button>
-        
-        <button onClick={()=>handleDelete(item.roll)}>delete</button>
-    </div>))
-}
-    </div></>)
+      ))}
+  </div>
+</div>):''}
+
+
+
+
+
+
+{searchIsopenBysubject?(<div className="container">
+  
+  <div className="search-bar">
+  <input  type='text' placeholder="search by name" onChange={(e)=>setSearchStudent(e.target.value)}></input>
+  <input  type='text' placeholder="search by subject" onChange={(e)=>setSearchSubject(e.target.value)}></input>
+  </div>
+  {/* <div><button className="add-student-btn" onClick={handleSearch}>
+    Search
+  </button></div> */}
+  <button className="add-student-btn" onClick={handleSearchBack}>
+    back
+  </button>
+  <div className="student-list">
+    {studentdata &&
+      studentdata.map((item, index) => (
+        <div className="student-card" key={item._id}>
+          <div className="student-image">
+            
+          </div>
+          <div className="student-details">
+            <h3 className="student-name">{item.studentName}</h3>
+            <div className="student-buttons">
+              <button className="edit-btn" onClick={() => handleEdit(item)}>
+                Edit
+              </button>
+              <button className="view-btn" onClick={() => handleView(item, index)}>
+                View
+              </button>
+              <button className="delete-btn" onClick={() => handleDelete(item.roll)}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>):''}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {mainIsopen?(<div className="container">
+  <button className="add-student-btn" onClick={handleAdd}>
+    Add Student
+  </button>
+  <div className="search-bar">
+  <input  type='text' placeholder="search by name" onChange={(e)=>setSearchStudent(e.target.value)}></input>
+  <input  type='text' placeholder="search by subject" onChange={(e)=>setSearchSubject(e.target.value)}></input>
+  </div>
+  <div><button className="add-student-btn" onClick={handleSearch}>
+    Search
+  </button></div>
+  <div className="student-list">
+    {studentdata &&
+      studentdata.map((item, index) => (
+        <div className="student-card" key={item._id}>
+          <div className="student-image">
+            
+          </div>
+          <div className="student-details">
+            <h3 className="student-name">{item.studentName}</h3>
+            <div className="student-buttons">
+              <button className="edit-btn" onClick={() => handleEdit(item)}>
+                Edit
+              </button>
+              <button className="view-btn" onClick={() => handleView(item, index)}>
+                View
+              </button>
+              <button className="delete-btn" onClick={() => handleDelete(item.roll)}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>):''}
+
+    </div>)
     
 }
